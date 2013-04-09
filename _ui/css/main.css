@@ -1,0 +1,43 @@
+body {
+	background: #945D25 url('../img/dirt.png');
+	/*background:#333;*/
+}
+
+h1 {
+	font-size:35px;
+	margin:auto;
+	color:#57340A;
+	font-family: 'Gabriela', serif;
+	font-weight:normal;
+	text-align:center;
+	cursor:pointer;
+	text-shadow: 0px 1px 0px #eba856;
+}
+
+h1:hover a {
+	visibility:visible;
+}
+
+
+
+h1 a {
+	visibility:hidden;
+	font-size:15px;
+	text-decoration:none;
+	color:#57340A;
+}
+
+#hand {
+	position:absolute;
+	top:0;
+	left:0;
+	background:url('../img/closed-hand.png');
+	width:455px;
+	height:1042px;
+	cursor:none;
+	/*opacity:0.9;*/
+}
+
+#hand.open {
+	background:url('../img/open-hand.png');
+}
