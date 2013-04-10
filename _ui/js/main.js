@@ -25,8 +25,6 @@ $(function(){
 	
 	function mintCoin( event ) {
 		if( event ){
-			// if( event.fingers > 3){
-				// if(count % 3 === 1){
 
 					// if( coinsInHand > 0){
 						var coin = new Coin();
@@ -44,7 +42,6 @@ $(function(){
 				count++;
 			// } else {
 				// coinsInHand = 15;
-			// }
 		}
 	}
 
@@ -207,15 +204,6 @@ $(function(){
 		event.preventDefault();
 		reset();
 	});
-
-
-	// Leap.loop(function( frame ){
-	// 	var fingerData = getFingerData( frame );
-
-	// 	if(fingerData){
-	// 		mintCoin( fingerData );
-	// 	}
-	// });
 
 
 });
