@@ -25,26 +25,24 @@ $(function(){
 	
 	function mintCoin( event ) {
 		if( event ){
-			// if( event.fingers > 3){
-				// if(count % 3 === 1){
-
-					// if( coinsInHand > 0){
+			if( event.fingers > 3){
+				if(count % 3 === 1){
+					if( coinsInHand > 0){
 						var coin = new Coin();
 						coin.x = event.pageX;
-						// coin.y = winHeight - event.pageY;
+						coin.y = winHeight - event.pageY;
 						coin.z = event.pageZ;
-						coin.y = event.pageY;
 
 						coin.init();
 						coins.push(coin);
 
 						coinsInHand--;
-					// }
-				// }
+					}
+				}
 				count++;
-			// } else {
-				// coinsInHand = 15;
-			// }
+			} else {
+				coinsInHand = 15;
+			}
 		}
 	}
 
@@ -124,70 +122,8 @@ $(function(){
 	}	
 
 
-	// var animate = setInterval(function(){
-	// 	draw();
-	// }, 1000/30);
-
-	// game.on('dblclick', function( event ){
-	// 	clearInterval(animate);
-	// });
-
-
-	function showHand( event ){
-		var $hand = $('#hand'),
-			handW = $hand.width(),
-			handH = $hand.height();
-
-
-
-		$hand.css({
-			left: event.clientX - (handW / 2),
-			top: event.clientY  - 200
-		});
-	}
-
-	function toggleHand(){
-		var $hand = $('#hand');
-		if( $hand.hasClass('open') ) {
-			$hand.removeClass('open');
-		} else {
-			$hand.addClass('open');
-		}
-
-		
-	}
-
-
 	var $body = $('body');
 
-	$body.on('mousemove', function( event ){
-		showHand( event );
-	});
-
-	$body.on('mousedown', function(){
-		toggleHand();
-	});
-
-	$body.on('mouseup', function(){
-		toggleHand();
-	});
-
-
-	var mousedown = false;
-	$body.on('mousedown', function(){
-		mousedown = true;
-	});
-
-	$body.on('mouseup', function( event ){
-		mousedown = false;
-	});
-
-
-	$body.on('mousemove', function( event ){
-		if( mousedown ){
-			mintCoin( event );
-		}
-	});
 
 	$body.on('click', function( event ){
 		mintCoin( event );
@@ -209,13 +145,13 @@ $(function(){
 	});
 
 
-	// Leap.loop(function( frame ){
-	// 	var fingerData = getFingerData( frame );
+	Leap.loop(function( frame ){
+		var fingerData = getFingerData( frame );
 
-	// 	if(fingerData){
-	// 		mintCoin( fingerData );
-	// 	}
-	// });
+		if(fingerData){
+			mintCoin( fingerData );
+		}
+	});
 
 
 });
