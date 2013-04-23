@@ -3,7 +3,7 @@
 var Peasant = function( options ){
 	this.radius = random(20,40);
 
-	this.pickupTime = random(10,35);
+	this.pickupTime = random(35,70);
 	this.pickupReset = this.pickupTime;
 	this.speed = random(3, 7);
 	this.moving = true;
@@ -20,7 +20,13 @@ Peasant.prototype = {
 
 	init: function( ctx ){
 
-		var peasantColors = ['#291811', '#85755C', '#484033', '#DDD8C2', '#514431'];
+		// Create array of different colored sprite images
+		this.peasantColors = [];
+		for (var i = 1; i < 7; i++) {
+			this.peasantColors.push( '_ui/img/peasant-' + i + '.png' );
+		}
+
+
 		var newPosition = this._getPosition();
 
 		this.startX = newPosition.x;
@@ -31,6 +37,8 @@ Peasant.prototype = {
 		
 		this._calculatePath();
 		this.peasantSprite();
+
+		this.centerPoint = (this.sprite.w / 2) * -1;
 	},
 
 
@@ -40,11 +48,12 @@ Peasant.prototype = {
 	 */
 	peasantSprite: function(){
 		this.img = new Image();
-		this.img.src = "_ui/img/peasant-sprite2.png";
+		// this.img.src = "_ui/img/peasant-sprite-3.png";
+		this.img.src = random( this.peasantColors );
 
 		this.sprite = {
-			w: 30,
-			h: 22,
+			w: 27,
+			h: 27,
 			posX: 0,
 			posY: 0,
 			frames: 15,
@@ -80,8 +89,7 @@ Peasant.prototype = {
 			}
 
 			if( section === 3 ){
-				// position.x = -100;
-				position.x = 40;
+				position.x = -100;
 				position.y = random(winHeight);
 			}
 
@@ -101,6 +109,7 @@ Peasant.prototype = {
 		this.direction = this.tx > 0 ? 1 : -1;
 
 		this.dist = Math.sqrt( this.tx * this.tx + this.ty * this.ty );
+		this.angle = Math.atan2(this.endY - this.startY, this.endX - this.startX);
 	},
 
 
@@ -111,9 +120,14 @@ Peasant.prototype = {
 	 * @param  {object} ctx - the current canvas object
 	 */
 	draw: function( ctx ){
-		ctx.drawImage(this.img, this.sprite.posX, this.sprite.posY, this.sprite.w, this.sprite.h, this.startX, this.startY, this.sprite.w * this.sprite.scale, this.sprite.h * this.sprite.scale);		
-	},
+		ctx.save();
 
+		ctx.translate(this.startX, this.startY);
+		ctx.rotate( this.angle );
+		ctx.drawImage(this.img, this.sprite.posX, this.sprite.posY, this.sprite.w, this.sprite.h, this.centerPoint, this.centerPoint, this.sprite.w * this.sprite.scale, this.sprite.h * this.sprite.scale);		
+	
+		ctx.restore();
+	},
 
 
 	_selectCoin: function(){
@@ -157,12 +171,8 @@ Peasant.prototype = {
 			});
 
 
-
-			if( this.direction == true ){
-				this.sprite.posY = 0;
-			} else {
-				this.sprite.posY = this.sprite.h;
-			}
+			// Set sprite to running
+			this.sprite.posY = 0;
 
 			if( this.sprite.posX < (this.sprite.frames * this.sprite.w) - (this.sprite.scale * this.sprite.w) ){
 				this.sprite.posX += this.sprite.w;
@@ -181,7 +191,6 @@ Peasant.prototype = {
 
 	_pickingUp: function(){
 		var self = this;
-		this.sprite.posX = 0;
 
 		// If the peasant is not safely home with their coins
 		if(!this.last){
@@ -189,6 +198,17 @@ Peasant.prototype = {
 			// Peasant is picking up coin
 			if(this.pickupTime > 0){
 				this.pickupTime -= 1;
+
+				// Change to picking up sprite
+				this.sprite.posY = this.sprite.h;
+
+				if( this.sprite.posX < (this.sprite.frames * this.sprite.w) - (this.sprite.scale * this.sprite.w) ){
+					this.sprite.posX += this.sprite.w;
+				} else {
+					this.sprite.posX = 0;
+				}
+
+
 			} else {
 
 				// Peasant has acquired coin and needs a new target

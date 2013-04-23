@@ -6,7 +6,7 @@ $(function(){
 	
 	var count = 0,
 		coinID = 0,
-		peasantSlots = 10,
+		peasantSlots = 5,
 		coinsInHand = 15;
 
 
@@ -19,6 +19,7 @@ $(function(){
 	var elCanvas = document.getElementById('canvas');
 	var ctx      = elCanvas.getContext('2d');
 	
+
 
 	var coins = [];
 	var peasants = [];
